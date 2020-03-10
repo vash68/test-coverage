@@ -1,0 +1,10 @@
+# Default ignored files
+*.iml
+
+#all build target dirs
+**/target
+
+# Maven build output
+target
+/report/target/
+/.idea/
