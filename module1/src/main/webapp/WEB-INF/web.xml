@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	id="WebApp_ID" version="3.1">
+
+
+	<display-name>ICE Editor</display-name>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			classpath*:ice-util-context.xml
+			classpath*:ice-ws-context.xml
+			classpath*:producerContext.xml
+			classpath*:ice-db-context.xml
+			
+		</param-value>
+	</context-param>
+	<!--classpath*:applicationContext.xml -->
+
+	<!--log4j2 uses "ICE Editor" context by default -->
+
+	<!--ivashkulat: all below works correctly except the following: TODO: figure 
+		out which context overrides this context with default log4j2 .xml config. 
+		Is it auto-init log4j 2.x feature for web apps 3.x ? -->
+
+
+	<!--disable auto-init for log4j2 in web apps 3.x -->
+	<!--<context-param>
+		<param-name>isLog4jAutoInitializationDisabled</param-name>
+		<param-value>true</param-value>
+	</context-param>-->
+
+	<!-- <context-param> <param-name>log4jConfiguration</param-name> usage: 
+		see log4j2-[dev|tst|prd].xml files <param-value>/WEB-INF/classes/log4j2-${sys:org.kp.dms.runtime.env}.xml</param-value> 
+		</context-param> -->
+
+
+	<!--<listener>
+		<listener-class>
+			org.apache.logging.log4j.web.Log4jServletContextListener
+		</listener-class>
+	</listener>-->
+
+	<servlet>
+		<servlet-name>ice-ws-servlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/ice-ws-servlet.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+		<multipart-config>
+			<location>/tmp</location>
+			<max-file-size>2000000</max-file-size><!--2 MB matches DP's allowed file size-->
+			<max-request-size>2000000</max-request-size><!--2 MB matches DP's allowed file size-->
+			<file-size-threshold>0</file-size-threshold>
+		</multipart-config>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>ice-ws-servlet</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+
+	 <filter>
+		<filter-name>http-deny-filter</filter-name>
+		<filter-class>org.kp.dms.ice.web.filter.HttpDenyFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>http-deny-filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<servlet>
+		<servlet-name>Http500ErrorHandler</servlet-name>
+		<servlet-class>org.kp.dms.ice.web.filter.Http500ErrorHandler</servlet-class>
+	</servlet>
+
+	<!-- servlet mappings -->
+	<servlet-mapping>
+		<servlet-name>Http500ErrorHandler</servlet-name>
+		<url-pattern>/Http500ErrorHandler</url-pattern>
+	</servlet-mapping>
+
+	<error-page>
+		<error-code>500</error-code>
+		<location>/Http500ErrorHandler</location>
+	</error-page>
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+    <!-- Let Spring manage the loggerFilter rather than having Servlet manges loggerFilter -->
+    <!-- using DelegatingFilterProxy  -->
+    <!-- Proxy for a standard Servlet 2.3 Filter, delegating to a Spring-managed bean that implements the Filter interface.  -->
+	 <!--<filter>-->
+		<!--<filter-name>log-filter</filter-name>-->
+		<!--<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>-->
+		 <!--<init-param>-->
+			 <!--<param-name>targetBeanName</param-name>-->
+			 <!--<param-value>loggerFilter</param-value>-->
+		 <!--</init-param>-->
+	<!--</filter>-->
+	<!--<filter-mapping>-->
+		<!--<filter-name>log-filter</filter-name>-->
+		<!--<url-pattern>/*</url-pattern>-->
+	<!--</filter-mapping>-->
+
+	<filter>
+		<filter-name>log-filter</filter-name>
+		<filter-class>org.kp.logger.web.filter.KPLoggerFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>log-filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+
+
+	<jsp-config>
+		<jsp-property-group>
+			<url-pattern>*.jsp</url-pattern>
+			<page-encoding>UTF-8</page-encoding>
+		</jsp-property-group>
+	</jsp-config>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+
+
+
+
+</web-app>
