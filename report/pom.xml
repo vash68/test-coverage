@@ -24,14 +24,14 @@
             <groupId>org.example</groupId>
             <artifactId>module2</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
+<!--            <scope>compile</scope>-->
         </dependency>
 
         <dependency>
             <groupId>org.example</groupId>
             <artifactId>module3</artifactId>
             <version>${project.version}</version>
-            <scope>test</scope>
+<!--            <scope>test</scope>-->
         </dependency>
 
 
