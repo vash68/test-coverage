@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>module1</artifactId>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <!--war packaging causes this error in Jenkins build:
     [ERROR] Failed to execute goal on project report: Could not resolve dependencies for project org.example:report:jar:1.0-SNAPSHOT: Could not find artifact org.example:module1:jar:1.0-SNAPSHOT -> [Help 1]
 -->

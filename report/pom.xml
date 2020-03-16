@@ -17,6 +17,7 @@
             <groupId>org.example</groupId>
             <artifactId>module1</artifactId>
             <version>${project.version}</version>
+            <type>war</type>
 <!--            <scope>test</scope>-->
         </dependency>
 
