@@ -49,7 +49,7 @@
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/ice-ws-servlet.xml</param-value>
+			<param-value>/WEB-INF/z-servlet.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 		<multipart-config>
@@ -60,23 +60,6 @@
 		</multipart-config>
 	</servlet>
 
-	<servlet-mapping>
-		<servlet-name>ice-ws-servlet</servlet-name>
-		<url-pattern>/*</url-pattern>
-	</servlet-mapping>
-
-	 <filter>
-		<filter-name>http-deny-filter</filter-name>
-		<filter-class>org.kp.dms.ice.web.filter.HttpDenyFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>http-deny-filter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-	<servlet>
-		<servlet-name>Http500ErrorHandler</servlet-name>
-		<servlet-class>org.kp.dms.ice.web.filter.Http500ErrorHandler</servlet-class>
-	</servlet>
 
 	<!-- servlet mappings -->
 	<servlet-mapping>
@@ -105,45 +88,4 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
-    <!-- Let Spring manage the loggerFilter rather than having Servlet manges loggerFilter -->
-    <!-- using DelegatingFilterProxy  -->
-    <!-- Proxy for a standard Servlet 2.3 Filter, delegating to a Spring-managed bean that implements the Filter interface.  -->
-	 <!--<filter>-->
-		<!--<filter-name>log-filter</filter-name>-->
-		<!--<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>-->
-		 <!--<init-param>-->
-			 <!--<param-name>targetBeanName</param-name>-->
-			 <!--<param-value>loggerFilter</param-value>-->
-		 <!--</init-param>-->
-	<!--</filter>-->
-	<!--<filter-mapping>-->
-		<!--<filter-name>log-filter</filter-name>-->
-		<!--<url-pattern>/*</url-pattern>-->
-	<!--</filter-mapping>-->
-
-	<filter>
-		<filter-name>log-filter</filter-name>
-		<filter-class>org.kp.logger.web.filter.KPLoggerFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>log-filter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-
-
-
-	<jsp-config>
-		<jsp-property-group>
-			<url-pattern>*.jsp</url-pattern>
-			<page-encoding>UTF-8</page-encoding>
-		</jsp-property-group>
-	</jsp-config>
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
-
-
-
-
-
-</web-app>
+ </web-app>
