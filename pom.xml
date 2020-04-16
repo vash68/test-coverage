@@ -8,6 +8,7 @@
     <artifactId>test-coverage</artifactId>
     <packaging>pom</packaging>
     <version>1.1-SNAPSHOT</version>
+    
     <modules>
         <module>module1</module>
         <module>module2</module>
